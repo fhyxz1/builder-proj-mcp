@@ -2,6 +2,8 @@
 
 A powerful Model Context Protocol (MCP) server for building project structures with various frameworks. This tool helps you quickly scaffold projects for Spring Boot, React, Vue, FastAPI, Django, Flask, Express, Fastify, NestJS, and more.
 
+**Language**: [English](README.md) | [中文](README.zh-CN.md)
+
 ## Features
 
 - **Multiple Framework Support**: Build projects for various tech stacks
@@ -234,3 +236,7 @@ MIT
 ## Support
 
 For issues and questions, please open an issue on the repository.
+
+---
+
+**Language**: [English](README.md) | [中文](README.zh-CN.md)
