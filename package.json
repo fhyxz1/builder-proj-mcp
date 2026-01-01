@@ -1,0 +1,46 @@
+{
+  "name": "builder-proj-mcp",
+  "version": "1.0.2",
+  "description": "MCP server for building project structures with various frameworks",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "builder-proj-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "project-builder",
+    "spring",
+    "react",
+    "vue",
+    "fastapi",
+    "django",
+    "flask",
+    "express",
+    "fastify",
+    "nestjs"
+  ],
+  "author": "ylab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ylab/builder-proj-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ylab/builder-proj-mcp/issues"
+  },
+  "homepage": "https://github.com/ylab/builder-proj-mcp",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

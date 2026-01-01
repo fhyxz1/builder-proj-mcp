@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "builder-proj": {
+      "command": "npx",
+      "args": ["-y", "builder-proj-mcp"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
