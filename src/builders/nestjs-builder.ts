@@ -1,4 +1,4 @@
-import { ProjectBuilder, ProjectConfig, BuilderResult } from '../types.js';
+import { ProjectBuilder, ProjectConfig, BuilderResult, BackendOptions } from '../types.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -13,9 +13,10 @@ export class NestJSBuilder implements ProjectBuilder {
     try {
       await fs.mkdir(projectPath, { recursive: true });
 
+      const backendOptions = options as BackendOptions;
       const useGraphQL = framework === 'nestjs-graphql';
-      const useDocker = options.docker !== false;
-      const useTests = options.tests !== false;
+      const useDocker = backendOptions.docker !== false;
+      const useTests = backendOptions.tests !== false;
 
       await this.createPackageJson(projectPath, projectName, useGraphQL);
       await this.createSourceStructure(projectPath);

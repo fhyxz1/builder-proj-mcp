@@ -1,4 +1,4 @@
-import { ProjectBuilder, ProjectConfig, BuilderResult } from '../types.js';
+import { ProjectBuilder, ProjectConfig, BuilderResult, BackendOptions } from '../types.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -13,10 +13,11 @@ export class SpringBootBuilder implements ProjectBuilder {
     try {
       await fs.mkdir(projectPath, { recursive: true });
       
-      const javaVersion = options.javaVersion || '17';
-      const springBootVersion = options.springBootVersion || '3.2.0';
-      const groupId = options.groupId || 'com.example';
-      const artifactId = options.artifactId || projectName;
+      const backendOptions = options as BackendOptions;
+      const javaVersion = backendOptions.javaVersion || '17';
+      const springBootVersion = (options as any).springBootVersion || '3.2.0';
+      const groupId = (options as any).groupId || 'com.example';
+      const artifactId = (options as any).artifactId || projectName;
 
       const pomContent = this.generatePomXml(groupId, artifactId, springBootVersion, javaVersion);
       await fs.writeFile(path.join(projectPath, 'pom.xml'), pomContent);

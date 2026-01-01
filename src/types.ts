@@ -2,8 +2,27 @@ export interface ProjectConfig {
   projectName: string;
   projectType: string;
   framework: string;
-  options?: Record<string, any>;
+  options?: FrontendOptions | BackendOptions;
   outputPath?: string;
+}
+
+export interface FrontendOptions {
+  typescript?: boolean;
+  tailwind?: boolean;
+  stateManagement?: 'zustand' | 'pinia' | 'redux' | 'none';
+  router?: boolean;
+  testing?: boolean;
+  eslint?: boolean;
+  prettier?: boolean;
+}
+
+export interface BackendOptions {
+  typescript?: boolean;
+  pythonVersion?: string;
+  javaVersion?: string;
+  docker?: boolean;
+  tests?: boolean;
+  database?: string;
 }
 
 export interface BuilderResult {

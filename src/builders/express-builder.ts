@@ -1,4 +1,4 @@
-import { ProjectBuilder, ProjectConfig, BuilderResult } from '../types.js';
+import { ProjectBuilder, ProjectConfig, BuilderResult, BackendOptions } from '../types.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -13,10 +13,11 @@ export class ExpressBuilder implements ProjectBuilder {
     try {
       await fs.mkdir(projectPath, { recursive: true });
 
-      const useTypeScript = framework === 'express-ts' || options.typescript !== false;
+      const backendOptions = options as BackendOptions;
+      const useTypeScript = framework === 'express-ts' || backendOptions.typescript !== false;
       const useRest = framework === 'express-rest';
-      const useDocker = options.docker !== false;
-      const useTests = options.tests !== false;
+      const useDocker = backendOptions.docker !== false;
+      const useTests = backendOptions.tests !== false;
 
       await this.createPackageJson(projectPath, projectName, useTypeScript, useRest);
       await this.createSourceStructure(projectPath, useTypeScript);

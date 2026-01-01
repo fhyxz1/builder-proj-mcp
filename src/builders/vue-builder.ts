@@ -1,4 +1,4 @@
-import { ProjectBuilder, ProjectConfig, BuilderResult } from '../types.js';
+import { ProjectBuilder, ProjectConfig, BuilderResult, FrontendOptions } from '../types.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -13,9 +13,10 @@ export class VueBuilder implements ProjectBuilder {
     try {
       await fs.mkdir(projectPath, { recursive: true });
 
-      const useTypeScript = options.typescript !== false;
+      const useTypeScript = (options as FrontendOptions).typescript !== false;
+      const frontendOptions = options as FrontendOptions;
 
-      await this.createVueProject(projectPath, projectName, useTypeScript, options);
+      await this.createVueProject(projectPath, projectName, useTypeScript, frontendOptions);
 
       return {
         success: true,
@@ -31,11 +32,13 @@ export class VueBuilder implements ProjectBuilder {
     }
   }
 
-  private async createVueProject(projectPath: string, projectName: string, useTypeScript: boolean, options: any): Promise<void> {
+  private async createVueProject(projectPath: string, projectName: string, useTypeScript: boolean, options: FrontendOptions): Promise<void> {
     const tsExt = useTypeScript ? '.ts' : '.js';
     const vueExt = useTypeScript ? '.vue' : '.vue';
 
-    const packageJson = {
+    const { tailwind = false, stateManagement = 'none', router = false, eslint = true, prettier = true } = options;
+
+    const packageJson: any = {
       name: projectName,
       version: '0.0.0',
       private: true,
@@ -53,6 +56,31 @@ export class VueBuilder implements ProjectBuilder {
         vite: '^5.0.8'
       }
     };
+
+    if (stateManagement === 'pinia') {
+      packageJson.dependencies['pinia'] = '^2.1.7';
+    }
+
+    if (router) {
+      packageJson.dependencies['vue-router'] = '^4.2.5';
+    }
+
+    if (tailwind) {
+      packageJson.devDependencies['tailwindcss'] = '^3.3.6';
+      packageJson.devDependencies['postcss'] = '^8.4.32';
+      packageJson.devDependencies['autoprefixer'] = '^10.4.16';
+    }
+
+    if (eslint) {
+      packageJson.devDependencies['eslint'] = '^8.55.0';
+      packageJson.devDependencies['eslint-plugin-vue'] = '^9.19.2';
+      packageJson.devDependencies['@vue/eslint-config-typescript'] = '^12.0.0';
+    }
+
+    if (prettier) {
+      packageJson.devDependencies['prettier'] = '^3.1.0';
+      packageJson.devDependencies['prettier-plugin-vue'] = '^1.1.0';
+    }
 
     await fs.writeFile(path.join(projectPath, 'package.json'), JSON.stringify(packageJson, null, 2));
 
@@ -101,16 +129,113 @@ export default defineConfig({
 }`);
     }
 
-    await this.createVueSourceFiles(projectPath, useTypeScript, tsExt);
-    await this.createIndexHtml(projectPath, projectName);
+    if (tailwind) {
+      await this.createTailwindConfig(projectPath, useTypeScript);
+    }
+
+    await this.createVueSourceFiles(projectPath, useTypeScript, tsExt, options);
+    await this.createIndexHtml(projectPath, projectName, router);
     await this.createGitignore(projectPath);
   }
 
-  private async createVueSourceFiles(projectPath: string, useTypeScript: boolean, tsExt: string): Promise<void> {
+  private async createVueSourceFiles(projectPath: string, useTypeScript: boolean, tsExt: string, options: FrontendOptions): Promise<void> {
     const srcPath = path.join(projectPath, 'src');
     await fs.mkdir(srcPath, { recursive: true });
 
-    const appContent = `<script setup${useTypeScript ? ' lang="ts"' : ''}>
+    const { tailwind = false, stateManagement = 'none', router = false } = options;
+
+    let appContent = '';
+    let mainContent = '';
+
+    if (router) {
+      const routerContent = `import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
+import About from '../views/About.vue'
+
+const routes = [
+  { path: '/', name: 'Home', component: Home },
+  { path: '/about', name: 'About', component: About }
+]
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+`;
+      const viewsPath = path.join(srcPath, 'views');
+      await fs.mkdir(viewsPath, { recursive: true });
+
+      const homeViewContent = `<template>
+  <div class="home">
+    <h1>Home Page</h1>
+    <router-link to="/about">Go to About</router-link>
+  </div>
+</template>
+`;
+      await fs.writeFile(path.join(viewsPath, 'Home.vue'), homeViewContent);
+
+      const aboutViewContent = `<template>
+  <div class="about">
+    <h1>About Page</h1>
+    <router-link to="/">Go Home</router-link>
+  </div>
+</template>
+`;
+      await fs.writeFile(path.join(viewsPath, 'About.vue'), aboutViewContent);
+
+      const routerPath = path.join(srcPath, 'router');
+      await fs.mkdir(routerPath, { recursive: true });
+      await fs.writeFile(path.join(routerPath, `index${tsExt}`), routerContent);
+
+      appContent = `<script setup${useTypeScript ? ' lang="ts"' : ''}>
+import { ref } from 'vue'
+
+const count = ref(0)
+</script>
+
+<template>
+  <div>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </nav>
+    <h1>{{ count }}</h1>
+    <button type="button" @click="count++">count is {{ count }}</button>
+    <router-view />
+  </div>
+</template>
+
+<style scoped>
+nav {
+  padding: 1rem;
+}
+
+nav a {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+button {
+  font-weight: bold;
+  margin: 0.5rem;
+}
+</style>
+`;
+      mainContent = `import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
+import { router } from './router'
+
+const app = createApp(App)
+app.use(router)
+app.mount('#app')
+`;
+    } else {
+      appContent = `<script setup${useTypeScript ? ' lang="ts"' : ''}>
 import { ref } from 'vue'
 
 const count = ref(0)
@@ -127,17 +252,33 @@ button {
 }
 </style>
 `;
-    await fs.writeFile(path.join(srcPath, 'App.vue'), appContent);
-
-    const mainContent = `import { createApp } from 'vue'
+      mainContent = `import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 
 createApp(App).mount('#app')
 `;
+    }
+
+    await fs.writeFile(path.join(srcPath, 'App.vue'), appContent);
     await fs.writeFile(path.join(srcPath, `main${tsExt}`), mainContent);
 
-    const styleContent = `:root {
+    const styleContent = tailwind ? `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+` : `:root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -178,9 +319,68 @@ body {
 
     const assetsPath = path.join(srcPath, 'assets');
     await fs.mkdir(assetsPath, { recursive: true });
+
+    if (stateManagement === 'pinia') {
+      await this.createPiniaStore(srcPath, tsExt);
+    }
   }
 
-  private async createIndexHtml(projectPath: string, projectName: string): Promise<void> {
+  private async createTailwindConfig(projectPath: string, useTypeScript: boolean): Promise<void> {
+    const ext = useTypeScript ? '.ts' : '.js';
+    const configContent = `/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+`;
+    await fs.writeFile(path.join(projectPath, `tailwind.config${ext}`), configContent);
+
+    const postcssConfig = `export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+`;
+    await fs.writeFile(path.join(projectPath, 'postcss.config.js'), postcssConfig);
+  }
+
+  private async createPiniaStore(srcPath: string, tsExt: string): Promise<void> {
+    const storesPath = path.join(srcPath, 'stores');
+    await fs.mkdir(storesPath, { recursive: true });
+
+    const storeContent = `import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function increment() {
+    count.value++
+  }
+
+  function decrement() {
+    count.value--
+  }
+
+  function reset() {
+    count.value = 0
+  }
+
+  return { count, increment, decrement, reset }
+})
+`;
+    await fs.writeFile(path.join(storesPath, `counter${tsExt}`), storeContent);
+  }
+
+  private async createIndexHtml(projectPath: string, projectName: string, hasRouter: boolean = false): Promise<void> {
+    const scriptSrc = hasRouter ? '/src/main.ts' : '/src/main.ts';
     const content = `<!doctype html>
 <html lang="en">
   <head>
@@ -191,7 +391,7 @@ body {
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="${scriptSrc}"></script>
   </body>
 </html>
 `;

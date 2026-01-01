@@ -1,4 +1,4 @@
-import { ProjectBuilder, ProjectConfig, BuilderResult } from '../types.js';
+import { ProjectBuilder, ProjectConfig, BuilderResult, BackendOptions } from '../types.js';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -13,8 +13,9 @@ export class DjangoBuilder implements ProjectBuilder {
     try {
       await fs.mkdir(projectPath, { recursive: true });
 
-      const pythonVersion = options.pythonVersion || '3.11';
-      const useDocker = options.docker !== false;
+      const backendOptions = options as BackendOptions;
+      const pythonVersion = backendOptions.pythonVersion || '3.11';
+      const useDocker = backendOptions.docker !== false;
       const useRest = framework === 'django-rest';
 
       await this.createRequirements(projectPath, useRest);
