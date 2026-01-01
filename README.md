@@ -41,6 +41,17 @@ A powerful Model Context Protocol (MCP) server for building project structures w
 
 ## Installation
 
+### Using npx (Recommended)
+
+The easiest way to use Builder Project MCP Server is via npx, which downloads and runs the package automatically:
+
+```bash
+# Run directly with npx
+npx builder-proj-mcp
+```
+
+### From Source
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -53,12 +64,37 @@ npm install
 npm run build
 ```
 
+### Global Installation
+
+You can also install it globally to use it from anywhere:
+
+```bash
+# Install globally
+npm install -g builder-proj-mcp
+
+# Run the server
+builder-proj-mcp
+```
+
 ## Usage
 
 ### As MCP Server
 
 Add to your MCP client configuration:
 
+**Using npx (Recommended):**
+```json
+{
+  "mcpServers": {
+    "builder-proj": {
+      "command": "npx",
+      "args": ["builder-proj-mcp"]
+    }
+  }
+}
+```
+
+**Using local installation:**
 ```json
 {
   "mcpServers": {

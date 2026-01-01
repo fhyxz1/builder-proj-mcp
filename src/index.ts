@@ -56,7 +56,36 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 },
                 typescript: {
                   type: 'boolean',
-                  description: 'Use TypeScript (for frontend projects)',
+                  description: 'Use TypeScript (default: true for supported frameworks)',
+                },
+                tailwind: {
+                  type: 'boolean',
+                  description: 'Use Tailwind CSS for styling (frontend only, default: false)',
+                },
+                stateManagement: {
+                  type: 'string',
+                  enum: ['zustand', 'pinia', 'redux', 'none'],
+                  description: 'State management library: zustand (React), pinia (Vue), redux (React), none (default: none)',
+                },
+                router: {
+                  type: 'boolean',
+                  description: 'Include router configuration (frontend only, default: false)',
+                },
+                testing: {
+                  type: 'boolean',
+                  description: 'Include test setup (default: true)',
+                },
+                eslint: {
+                  type: 'boolean',
+                  description: 'Include ESLint configuration (frontend only, default: false)',
+                },
+                prettier: {
+                  type: 'boolean',
+                  description: 'Include Prettier configuration (frontend only, default: false)',
+                },
+                docker: {
+                  type: 'boolean',
+                  description: 'Include Docker configuration (default: true)',
                 },
                 javaVersion: {
                   type: 'string',
@@ -74,13 +103,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                   type: 'string',
                   description: 'Maven groupId for Spring Boot (default: com.example)',
                 },
-                docker: {
-                  type: 'boolean',
-                  description: 'Include Docker configuration (default: true)',
-                },
-                tests: {
-                  type: 'boolean',
-                  description: 'Include test setup (default: true)',
+                database: {
+                  type: 'string',
+                  description: 'Database type for backend projects (e.g., postgresql, mysql, mongodb)',
                 },
               },
             },
