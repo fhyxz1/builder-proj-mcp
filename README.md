@@ -1,6 +1,6 @@
 # Builder Project MCP Server
 
-A powerful Model Context Protocol (MCP) server for building project structures with various frameworks. This tool helps you quickly scaffold projects for Spring Boot, React, Vue, FastAPI, Django, Flask, Express, Fastify, NestJS, and more.
+A powerful Model Context Protocol (MCP) server for building project structures with various frameworks. This tool helps you quickly scaffold projects for Spring Boot, React, Vue, Next.js, Nuxt.js, FastAPI, Django, Flask, Express, Fastify, NestJS, and more.
 
 **Language**: [English](README.md) | [中文](README.zh-CN.md)
 
@@ -19,7 +19,7 @@ A powerful Model Context Protocol (MCP) server for building project structures w
 - `spring-mvc` - Spring MVC
 - `spring-webflux` - Spring WebFlux
 
-### Frontend
+### Frontend (Vite-based)
 - `react` - React with Vite
 - `react-vite` - React with Vite
 - `react-cra` - React with Create React App
@@ -29,6 +29,16 @@ A powerful Model Context Protocol (MCP) server for building project structures w
 - `vite` - Vanilla Vite
 - `vite-vanilla` - Vanilla Vite
 - `vite-ts` - Vite with TypeScript
+
+### Next.js (React SSR/SSG)
+- `next` - Next.js with App Router
+- `nextjs` - Next.js
+- `next-app` - Next.js App Router
+- `next-pages` - Next.js Pages Router
+
+### Nuxt.js (Vue SSR/SSG)
+- `nuxt` - Nuxt.js 3
+- `nuxt3` - Nuxt.js 3
 
 ### Python
 - `fastapi` - FastAPI with Uvicorn
@@ -40,6 +50,11 @@ A powerful Model Context Protocol (MCP) server for building project structures w
 - `flask` - Flask
 - `flask-rest` - Flask REST API
 - `flask-sqlalchemy` - Flask with SQLAlchemy
+
+### JavaScript/TypeScript Backend
+- `express` - Express.js
+- `fastify` - Fastify
+- `nestjs` - NestJS
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # Builder Project MCP 服务器
 
-一个强大的模型上下文协议（MCP）服务器，用于构建各种框架的项目结构。此工具可帮助您快速搭建 Spring Boot、React、Vue、FastAPI、Django、Flask、Express、Fastify、NestJS 等框架的项目。
+一个强大的模型上下文协议（MCP）服务器，用于构建各种框架的项目结构。此工具可帮助您快速搭建 Spring Boot、React、Vue、Next.js、Nuxt.js、FastAPI、Django、Flask、Express、Fastify、NestJS 等框架的项目。
 
 **语言**: [English](README.md) | [中文](README.zh-CN.md)
 
@@ -19,7 +19,7 @@
 - `spring-mvc` - Spring MVC
 - `spring-webflux` - Spring WebFlux
 
-### 前端
+### 前端 (Vite)
 - `react` - React + Vite
 - `react-vite` - React + Vite
 - `react-cra` - React + Create React App
@@ -29,6 +29,16 @@
 - `vite` - 纯 Vite
 - `vite-vanilla` - 纯 Vite
 - `vite-ts` - Vite + TypeScript
+
+### Next.js (React SSR/SSG)
+- `next` - Next.js + App Router
+- `nextjs` - Next.js
+- `next-app` - Next.js App Router
+- `next-pages` - Next.js Pages Router
+
+### Nuxt.js (Vue SSR/SSG)
+- `nuxt` - Nuxt.js 3
+- `nuxt3` - Nuxt.js 3
 
 ### Python
 - `fastapi` - FastAPI + Uvicorn
@@ -40,6 +50,11 @@
 - `flask` - Flask
 - `flask-rest` - Flask REST API
 - `flask-sqlalchemy` - Flask + SQLAlchemy
+
+### JavaScript/TypeScript 后端
+- `express` - Express.js
+- `fastify` - Fastify
+- `nestjs` - NestJS
 
 ## 安装
 

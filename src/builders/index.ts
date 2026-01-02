@@ -10,6 +10,7 @@ import { ExpressBuilder } from './express-builder.js';
 import { FastifyBuilder } from './fastify-builder.js';
 import { NestJSBuilder } from './nestjs-builder.js';
 import { NextJSBuilder } from './nextjs-builder.js';
+import { NuxtBuilder } from './nuxt-builder.js';
 
 export class BuilderFactory {
   private static builders: ProjectBuilder[] = [
@@ -23,7 +24,8 @@ export class BuilderFactory {
     new ExpressBuilder(),
     new FastifyBuilder(),
     new NestJSBuilder(),
-    new NextJSBuilder()
+    new NextJSBuilder(),
+    new NuxtBuilder()
   ];
 
   static getBuilder(framework: string): ProjectBuilder | null {

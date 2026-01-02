@@ -164,8 +164,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const frameworks = BuilderFactory.getSupportedFrameworks();
     const groupedFrameworks: Record<string, string[]> = {
       'Spring/Java': frameworks.filter(f => f.includes('spring')),
-      'Frontend': frameworks.filter(f => ['react', 'vue', 'vite'].some(prefix => f.startsWith(prefix))),
+      'Frontend': frameworks.filter(f => ['react', 'vite'].some(prefix => f.startsWith(prefix))),
       'Next.js/React': frameworks.filter(f => ['next'].some(prefix => f.startsWith(prefix))),
+      'Nuxt.js/Vue': frameworks.filter(f => ['vue', 'nuxt'].some(prefix => f.startsWith(prefix))),
       'Python': frameworks.filter(f => ['fastapi', 'django', 'flask'].some(prefix => f.startsWith(prefix))),
       'JavaScript/TypeScript': frameworks.filter(f => ['express', 'fastify', 'nestjs'].some(prefix => f.startsWith(prefix))),
     };
