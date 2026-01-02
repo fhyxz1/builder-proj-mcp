@@ -1,6 +1,6 @@
 {
   "name": "builder-proj-mcp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "MCP server for building project structures with various frameworks",
   "main": "dist/index.js",
   "type": "module",
@@ -29,12 +29,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ylab/builder-proj-mcp.git"
+    "url": "https://github.com/fhyxz1/builder-proj-mcp"
   },
   "bugs": {
     "url": "https://github.com/ylab/builder-proj-mcp/issues"
   },
-  "homepage": "https://github.com/ylab/builder-proj-mcp",
+  "homepage": "https://github.com/fhyxz1/builder-proj-mcp",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
   },

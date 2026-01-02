@@ -9,6 +9,7 @@ import { ViteBuilder } from './vite-builder.js';
 import { ExpressBuilder } from './express-builder.js';
 import { FastifyBuilder } from './fastify-builder.js';
 import { NestJSBuilder } from './nestjs-builder.js';
+import { NextJSBuilder } from './nextjs-builder.js';
 
 export class BuilderFactory {
   private static builders: ProjectBuilder[] = [
@@ -21,7 +22,8 @@ export class BuilderFactory {
     new ViteBuilder(),
     new ExpressBuilder(),
     new FastifyBuilder(),
-    new NestJSBuilder()
+    new NestJSBuilder(),
+    new NextJSBuilder()
   ];
 
   static getBuilder(framework: string): ProjectBuilder | null {
