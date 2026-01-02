@@ -4,6 +4,9 @@ A powerful Model Context Protocol (MCP) server for building project structures w
 
 **Language**: [English](README.md) | [中文](README.zh-CN.md)
 
+## Why Build This?
+During daily vibe coding, building projects with different tech stacks often requires using different tools and command combinations, which can lead to unnecessary token overhead. Builder Project MCP Server provides a unified interface that allows you to quickly scaffold project structures by invoking a series of tools, thereby improving development efficiency.
+
 ## Features
 
 - **Multiple Framework Support**: Build projects for various tech stacks
