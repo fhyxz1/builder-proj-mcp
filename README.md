@@ -1,4 +1,4 @@
-# Builder Project MCP Server
+# Builder-Proj-MCP Server
 
 A powerful Model Context Protocol (MCP) server for building project structures with various frameworks. This tool helps you quickly scaffold projects for Spring Boot, React, Vue, Next.js, Nuxt.js, FastAPI, Django, Flask, Express, Fastify, NestJS, and more.
 
